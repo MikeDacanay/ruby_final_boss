@@ -1,0 +1,25 @@
+<h2 style='display:inline-block;'><%= @org.name %></h2> || <a href='/groups' style='display:inline-block;'> Dashboard</a>
+<% if @org.users.include?(current_user)%>
+	<form action='/memberships/<%=Membership.where(user: current_user, organization: @org).first.id%>' method='post'>
+		<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+		<input type="hidden" name="_method" value="delete">
+		<input type='submit' value='Leave Group'>
+	</form>
+<% else %>
+	<form action='/groups/<%=@org.id%>/memberships' method='post'>
+		<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+		<input type='submit' value='Join Group'>
+	</form>
+<%end%>
+<p><i><%= @org.description %></i></p>
+<p><b>Created By:</b> 
+	<% if @org.user === current_user %>
+		YOU
+	<% else %>
+		<%=@org.user.first_name%> <%=@org.user.last_name%>
+	<% end %>
+</p>
+<p><b>Members:</b></p>
+<% @org.users.each do |user| %> 
+	<p><%=user.first_name%> <%=user.last_name%></p>
+<% end %>

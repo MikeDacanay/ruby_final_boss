@@ -1,0 +1,37 @@
+<% if current_user%>
+	<a href='/groups'> Proceed to Groups Dashboard </a>
+<%else%>
+	<div style="display: inline-block;">
+		<h1>Register</h1>
+		<form action='/users' method='post'>
+			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+			<label for='user[first_name]'>First Name</label>
+			<input type='text' name='user[first_name]'></br>
+			<label for='user[last_name]'>Last Name</label>
+			<input type='text' name='user[last_name]'></br>
+			<label for='user[email]'>Email</label>
+			<input type='text' name='user[email]'></br>
+			<label for='user[password]'>Password</label>
+			<input type='password' name='user[password]'>
+			<input type='submit' value='register'>
+		</form>
+	</div>
+	<div style="display: inline-block; vertical-align: top" >
+		<h1>Login</h1>
+		<form action='/sessions' method='post'>
+			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">		
+			<label for='email'>Email</label>
+			<input type='text' name='email'></br>
+			<label for='password'>Password</label>
+			<input type='password' name='password'></br>
+			<input type='submit' value='login'>
+		</form>
+	</div>
+	<div>
+		<% if flash[:errors]%>
+			<% flash[:errors].each do |error|%>
+				<p style="color:red"><%= error %></p>
+			<%end%>
+		<%end%>
+	</div>
+<%end%>
